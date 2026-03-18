@@ -1,14 +1,14 @@
-﻿using System.Globalization;
-
-string name = "Bjorn";
+﻿string name = "Bjorn";
 int y = 2;
-double pi = 3.14;
+bool isTrue = true;
+
 
 Console.WriteLine("Hello " + name);
-Console.WriteLine(2 + y);
-Console.WriteLine("Skriv in värdet på pi med 2 decimaler");
-var answer = Console.ReadLine();
-if (double.Parse(answer, CultureInfo.InvariantCulture) == pi)
+Console.WriteLine(2 + y + " är 4");
+if (isTrue == true)
 {
-    Console.WriteLine("Correct!");
+    Console.WriteLine("Det är sant!");
+} else
+{
+    Console.WriteLine("Det är falskt!");
 }
