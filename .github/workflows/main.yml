@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - zip
+
 permissions:
   contents: write
 
