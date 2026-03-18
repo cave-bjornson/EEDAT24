@@ -3,9 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34309.116
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MissingVariables", "EEDAT24\MissingVariables.csproj", "{9955413C-D4D3-4B66-8AB4-16FD88544408}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Chapter3", "Chapter3", "{5BCBBE82-817F-4802-B9BD-94BA523C65D1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MissingVariables", "MissingVariables\MissingVariables.csproj", "{9955413C-D4D3-4B66-8AB4-16FD88544408}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

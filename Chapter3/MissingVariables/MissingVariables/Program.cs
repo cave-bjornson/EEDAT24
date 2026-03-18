@@ -1,6 +1,6 @@
-﻿string name = "Bjorn";
-int y = 2;
-bool isTrue = true;
+﻿// Fyll på med variabler med en fungerande dataty
+// nedan så att programmet kan köras utan fel.
+
 
 
 Console.WriteLine("Hello " + name);
