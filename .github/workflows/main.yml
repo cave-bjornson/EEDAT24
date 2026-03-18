@@ -1,0 +1,69 @@
+name: Zip SLN Folders
+
+on:
+  push:
+    branches:
+      - zip
+
+jobs:
+  zip-sln-folders:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Find and zip folders containing .sln files
+        run: |
+          mkdir -p zipped_output
+
+          # Find all .sln files and get their parent directories (deduplicated)
+          mapfile -t SLN_DIRS < <(find . -name "*.sln" -not -path "./.git/*" | xargs -I{} dirname {} | sort -u)
+
+          if [ ${#SLN_DIRS[@]} -eq 0 ]; then
+            echo "No folders containing .sln files found."
+            exit 0
+          fi
+
+          echo "Found ${#SLN_DIRS[@]} folder(s) with .sln files:"
+          for dir in "${SLN_DIRS[@]}"; do
+            echo "  $dir"
+          done
+
+          for dir in "${SLN_DIRS[@]}"; do
+            # Strip leading ./ and replace slashes with underscores for the zip name
+            zip_name=$(echo "$dir" | sed 's|^\./||' | tr '/' '_')
+            echo "Zipping '$dir' -> 'zipped_output/${zip_name}.zip'"
+            zip -r "zipped_output/${zip_name}.zip" "$dir" \
+              --exclude "*.git*" \
+              --exclude "*/bin/*" \
+              --exclude "*/obj/*" \
+              --exclude "*/.vs/*" \
+              --exclude "*/node_modules/*" \
+              --exclude "*/packages/*"
+          done
+
+          echo "Done. Created zips:"
+          ls -lh zipped_output/
+
+      - name: Upload zips as artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: sln-zips-${{ github.sha }}
+          path: zipped_output/*.zip
+          retention-days: 30
+
+      - name: Commit zips back to zip branch
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Stage only the zipped output folder
+          git add zipped_output/
+
+          if git diff --cached --quiet; then
+            echo "No changes to commit — zips are already up to date."
+          else
+            git commit -m "chore: update zipped SLN folders [skip ci]"
+            git push origin zip
+          fi
