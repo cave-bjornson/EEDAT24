@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - zip
+permissions:
+  contents: write
 
 jobs:
   zip-sln-folders:
